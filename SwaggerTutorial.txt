@@ -1,0 +1,71 @@
+
+
+Swagger and Open API specification are the ways to document an API specifying that what exactly APIs can do? and generates an interactive documentation website. .
+
+
+
+http://localhost:8087/swagger-ui.html
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		
+@EnableSwagger2
+@Configuration
+public class SwaggerConfig {
+
+	public Docket productApi() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("com.techprimers.springboot.swaggerExample.resource"))
+				.paths(PathSelectors.regex("\"/rest.*\""))
+				.build()
+				.apiInfo(metaInfo());
+	}
+	
+	private ApiInfo metaInfo() {
+        return new ApiInfoBuilder()
+        		.title("Spring Boot Swagger Example API")
+        		.description("Spring Boot Swagger Example API for Youtube")
+        		.version( "1.0")
+        		.license("Apache License Version 2.0")
+        		.licenseUrl("https://www.apache.org/licesen.html")
+				.contact(new Contact("TechPrimers", "https://www.youtube.com/TechPrimers",
+						"techprimerschannel@gmail.com"))
+        		.build();
+
+    }
+
+}
+
+
+@ApiOperation(value="Return the Hello World.")
+	@ApiResponses(
+			value={
+				   @ApiResponse(code=100,message="information message"),
+				   @ApiResponse(code=500,message="Interanl server error")
+				  }
+	)
+
+	@GetMapping
+	public String hello() {
+		return "Hello World";
+	}
+	
+	
+@ApiModelProperty(value = "Name of the User")
+	private String userName;
+
+	@ApiModelProperty(value = "Salary of the User")
+	private Long salary;
